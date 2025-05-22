@@ -6,10 +6,25 @@ As a cybersecurity enthusiast and aspiring SOC analyst, I'm documenting my journ
 
 Wazuh is a robust, free, open-source Security Information and Event Management (SIEM) and Extended Detection and Response (XDR) platform. It provides real-time visibility into IT infrastructure by aggregating, analyzing, and correlating security data from endpoints, servers, and cloud environments. Wazuh aids organizations in threat detection, integrity monitoring, and compliance management.
 
+## 🧰 Tools Used
+
+For this first day of the SOC lab setup, I utilized the following tools:
+
+| Tool | Purpose |
+|------|---------|
+| **Wazuh** | Core SIEM/XDR platform for security monitoring and alert generation |
+| **Docker** | Container platform to deploy and manage Wazuh services |
+| **Docker Compose** | Tool for defining and running multi-container Docker applications |
+| **Hydra** | Password cracking and brute-force testing tool |
+| **DigitalOcean** | Cloud platform hosting the Wazuh server |
+| **VMware Workstation** | Virtualization platform for Windows and Kali Linux agents |
+| **Remote Desktop Protocol (RDP)** | Protocol enabling remote access to Windows system |
+
 ## 🖥️ Lab Environment Overview
 
 ### Server:
 - **Wazuh Server**: DigitalOcean Droplet (Ubuntu 22.04)
+  - **Specs**: 8GB RAM, 2 vCPU
 
 ### Agents:
 - **Windows 11 VM**: VMware Workstation
@@ -110,12 +125,36 @@ netsh advfirewall firewall add rule name="Allow RDP" dir=in action=allow protoco
 
 - Verify RDP service is active using an NMAP scan to ensure port 3389 is listening
 
+## 📊 Wazuh Dashboard Overview
+
+After successfully deploying both agents, I could verify their connectivity and status in the Wazuh dashboard. The dashboard provides a comprehensive view of all connected agents, their status, and security metrics.
+
+### Connected Agents
+
+The Agents view shows both Windows and Kali Linux systems successfully registered and reporting to the Wazuh server:
+
+![Wazuh Agents Overview](images/wazuh-agents-overview.png)
+
+### Dashboard Interface
+
+The main dashboard provides a high-level overview of the security posture, including:
+
+- Alert summaries by severity level
+- MITRE ATT&CK framework mapping
+- Compliance status
+- Vulnerability statistics
+- Events count evolution
+
+![Wazuh Main Dashboard](images/wazuh-main-dashboard.png)
+
+This interface serves as the central monitoring point for security events across all connected endpoints in our SOC lab.
+
 ## 🔥 Simulating Brute-Force Attack Using Hydra
 
 To test Wazuh's detection capabilities, I simulated a brute-force attack from Kali Linux targeting the Windows VM:
 
 ```bash
-hydra -t 4 -V -f -l <Username> -P /usr/share/wordlists/rockyou.txt rdp://<Windows VM IP Address>
+hydra -t 4 -V -f -l creat -P /usr/share/wordlists/rockyou.txt rdp://<Windows VM IP Address>
 ```
 
 Parameters used:
